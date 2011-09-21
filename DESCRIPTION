@@ -14,10 +14,10 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes
 URL: http://r-forge.r-project.org/projects/klausur
-Author@R: c(person(given="Meik", family="Michalke",
-        email="meik.michalke@hhu.de"))
-Version: 0.12-1
-Date: 2011-09-01
+Authors@R: c(person(given="Meik", family="Michalke",
+        email="meik.michalke@hhu.de", role=c("aut", "cre")))
+Version: 0.12-2
+Date: 2011-09-21
 Collate: 'compare.R' 'grand.table.R' 'klausuR.test-class.R'
         'klausuR.answ-class.R' 'klausuR-class.R' 'klausur.data.R'
         'klausur.gen.corr.R' 'klausur.gen.marks.R' 'klausur.gen.R'
@@ -26,6 +26,6 @@ Collate: 'compare.R' 'grand.table.R' 'klausuR.test-class.R'
         'klausur.R' 'klausur.report.R' 'nret.rescale.R'
         'nret.translator.R' 'plot.klausuR.R' 'show.klausuR.R'
         'sort.klausuR.R'
-Packaged: 2011-09-01 17:31:08 UTC; m
+Packaged: 2011-09-21 17:23:28 UTC; m
 Repository: CRAN
-Date/Publication: 2011-09-01 18:35:02
+Date/Publication: 2011-09-24 06:42:42
