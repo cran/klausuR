@@ -90,7 +90,7 @@ data.check.klausur <- function(answ, corr, items, na.rm, prefixes=c()){
 ## scoring.check.klausur()
 # this function is called by klausur() and klausur.mufo()
 # for some sanity checks of the desired scoring
-scoring.check.klausur <- function(corr, marks, wght, score){
+scoring.check.klausur <- function(corr, marks, wght, score, maxp=NULL){
 
 		# are there missing values?
 		if(!is.null(marks)){
@@ -119,6 +119,10 @@ scoring.check.klausur <- function(corr, marks, wght, score){
 			warning("Partially answered items were allowed (scored according to Number Right Elimination Testing).", call.=FALSE)
 			} else{}
 		} else{}
+
+		if(!is.null(maxp) && !is.numeric(maxp)){
+			stop(simpleError("'maxp' must either be numeric or NULL!"))
+		} else {}
 
 	return(TRUE)
 } ## end scoring.check.klausur()
@@ -578,15 +582,18 @@ marks.summary <- function(marks, minp=0, add.const=0){
 ## klausur.reorderItems()
 # put items in correct order (multiple test forms)
 klausur.reorderItems <- function(slot, order){
-  part.slot <- subset(slot, select=-MatrNo)
-  slot.names <- names(part.slot)
-  matn.slot <- subset(slot, select=MatrNo)
-  # now let's reorder the stuff
-  part.slot.reordered <- part.slot[,order]
-  names(part.slot.reordered) <- slot.names
-  # finally glue MatrNo back
-  reordered.items <- cbind(matn.slot, part.slot.reordered)
-  return(reordered.items)
+	# to avoid NOTEs from R CMD check:
+	MatrNo <- NULL
+
+	part.slot <- subset(slot, select=-MatrNo)
+	slot.names <- names(part.slot)
+	matn.slot <- subset(slot, select=MatrNo)
+	# now let's reorder the stuff
+	part.slot.reordered <- part.slot[,order]
+	names(part.slot.reordered) <- slot.names
+	# finally glue MatrNo back
+	reordered.items <- cbind(matn.slot, part.slot.reordered)
+	return(reordered.items)
 } ## end klausur.reorderItems()
 
 ## function plot.merger()

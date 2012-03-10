@@ -51,6 +51,31 @@
 #' }
 
 compare <- function(set1, set2, select=NULL, ignore=NULL, new.set=FALSE, rename=c(), trim=FALSE, id=list(No="No", Name=c("FirstName", "Name"))){
+	# to avoid NOTEs from R CMD check:
+	MatrNo <- NULL
+
+	# function to rename columns
+	rename.vars <- function(rename=rename, set){
+			vars.to.rename <- names(rename)
+			id.names <- c("No", "Name", "FirstName", "MatrNo")
+			id.possible.names <- c(id.names, "Pseudonym", "Form")
+			if(any(vars.to.rename %in% names(set))){
+				double.vars <- vars.to.rename[vars.to.rename %in% names(set)]
+				warning(paste("Probably duplicate variable names found, please double check the outcome:\n ", paste(double.vars, collapse=", ")), call.=FALSE)
+			} else {}
+			id.invalid.names <- vars.to.rename[!vars.to.rename %in% id.possible.names]
+			if(length(id.invalid.names) > 0){
+				stop(simpleError(paste("Invalid variable names in 'rename':\n ",
+					paste(id.invalid.names, collapse=", "))))
+			} else {}
+			# rename columns, if any
+			for (ren.var in vars.to.rename){
+				ren.from <- rename[ren.var]
+				ren.to	<- ren.var
+				colnames(set)[colnames(set) == rename[ren.var]] <- ren.var
+			}
+		return(set)
+	}
 
 	# get the names of the given sets, to better understand the outcome later
 	set1.name <- deparse(substitute(set1))
@@ -105,7 +130,16 @@ compare <- function(set1, set2, select=NULL, ignore=NULL, new.set=FALSE, rename=
 
 	# first thing, if both sets are indeed the same, we can quit immediately
 	if(identical(set1, set2)) {
-		return(cat("\nThe compared objects (",set1.name," & ",set2.name,") are identical!\n", sep=""))
+		message(paste("\nThe compared objects (",set1.name," & ",set2.name,") are identical!\n", sep=""))
+		if(isTRUE(new.set)){
+			# do we need renaming?
+			if(length(rename) > 0){
+				set1 <- rename.vars(rename=rename, set=set1)
+			} else {}
+			return(set1)
+		} else {
+			return(invisible(NULL))
+		}
 	} else {
 		# before any values are even compared, check for equality of elements
 		if(!identical(names(set1), names(set2))){
@@ -130,25 +164,8 @@ compare <- function(set1, set2, select=NULL, ignore=NULL, new.set=FALSE, rename=
 
 		# do we need renaming?
 		if(length(rename) > 0){
-			vars.to.rename <- names(rename)
-			id.names <- c("No", "Name", "FirstName", "MatrNo")
-			id.possible.names <- c(id.names, "Pseudonym", "Form")
-			if(any(vars.to.rename %in% names(set1))){
-				double.vars <- vars.to.rename[vars.to.rename %in% names(set1)]
-				warning(paste("Probably duplicate variable names found, please double check the outcome:\n ", paste(double.vars, collapse=", ")), call.=FALSE)
-			} else {}
-			id.invalid.names <- vars.to.rename[!vars.to.rename %in% id.possible.names]
-			if(length(id.invalid.names) > 0){
-				stop(simpleError(paste("Invalid variable names in 'rename':\n ",
-					paste(id.invalid.names, collapse=", "))))
-			} else {}
-			# rename columns, if any
-			for (ren.var in vars.to.rename){
-				ren.from <- rename[ren.var]
-				ren.to	<- ren.var
-				dimnames(set1)[[2]][dimnames(set1)[[2]] == rename[ren.var]] <- ren.var
-				dimnames(set2)[[2]][dimnames(set2)[[2]] == rename[ren.var]] <- ren.var
-			}
+			set1 <- rename.vars(rename=rename, set=set1)
+			set2 <- rename.vars(rename=rename, set=set2)
 		} else {}
 
 		# validate the demanded id values
@@ -210,7 +227,16 @@ compare <- function(set1, set2, select=NULL, ignore=NULL, new.set=FALSE, rename=
 			}
 			# quit if the subset is identical
 			if(identical(set1, set2)){
-				return(cat("\nThe compared objects (",set1.name," & ",set2.name,") are identical!\n\n", sep=""))
+				message(paste("\nThe compared objects (",set1.name," & ",set2.name,") are identical!\n\n", sep=""))
+				if(isTRUE(new.set)){
+					# do we need renaming?
+					if(length(rename) > 0){
+						set1 <- rename.vars(rename=rename, set=set1)
+					} else {}
+					return(set1)
+				} else {
+					return(invisible(NULL))
+				}
 			} else {}
 		} else {}
 		# then sort the data according to "No"
@@ -260,8 +286,16 @@ compare <- function(set1, set2, select=NULL, ignore=NULL, new.set=FALSE, rename=
 		# check if a new set should be created, with dubious values replaced by NA
 		if(isTRUE(new.set)){
 			new.df <- set1
-			for (this.val in 1:nrow(set.diff.array)){
-				new.df[set.diff.array[this.val, 1], set.diff.array[this.val, 2]] <- NA
+			# there's only rows if there's also more than one found difference
+			if(uneq > 1){
+				for (this.val in 1:nrow(set.diff.array)){
+					new.df[set.diff.array[this.val, 1], set.diff.array[this.val, 2]] <- NA
+				}
+			} else if(uneq == 1){
+				new.df[set.diff.array[1, 1], set.diff.array[1, 2]] <- NA
+			} else {
+				# no differences, return the set
+				return(new.df)
 			}
 			cat("\nThe objects differ.\n\n")
 			print(differences)
