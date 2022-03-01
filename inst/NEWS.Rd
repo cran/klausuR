@@ -1,6 +1,51 @@
 \name{NEWS}
 \title{News for Package 'klausuR'}
 \encoding{UTF-8}
+\section{Changes in klausuR version 0.12-13 (2022-03-01)}{
+  \subsection{fixed}{
+    \itemize{
+      \item properly adjusted imports of functions/methods from other packages
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item dropped dependencies on polycor and psychometric, item analysis is now
+        bone using \code{psych::alpha()}
+      \item removed outdated internal klausuR-internal.roxy.all.R file
+    }
+  }
+}
+\section{Changes in klausuR version 0.12-12 (2018-07-29)}{
+  \subsection{fixed}{
+    \itemize{
+      \item the option 'keep.cases' in \code{klausur.data()} was broken
+      \item \code{klausur.report()}: fixed LaTeX issue if percent sign was used in psedonyms
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item \code{klausur.report()}: global reports are now printed in landscape mode
+      \item reaktanz.de supports HTTPS now, updated references
+      \item the source code has moved from R-forge to
+        https://github.com/unDocUMeantIt/klausuR
+    }
+  }
+}
+\section{Changes in klausuR version 0.12-11 (2016-06-29)}{
+  \subsection{added}{
+    \itemize{
+      \item new argument \code{"fancyhdr"} in \code{klausur.report()} to add information to headers
+        and footers of generated reports
+    }
+  }
+  \subsection{changed}{
+    \itemize{
+      \item cleaned up \code{klausur.report()}: moved internal functions to separate file
+      \item adjusted the auto table sizes in \code{klausur.report()} a bit
+      \item rephrased the description to comply with CRAN terms
+    }
+  }
+}
 \section{Changes in klausuR version 0.12-10 (2015-02-07)}{
   \subsection{added}{
     \itemize{

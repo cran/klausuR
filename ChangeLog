@@ -1,5 +1,32 @@
 ChangeLog for package klausuR
 
+changes in version 0.12-13 (2022-03-01)
+fixed:
+  - properly adjusted imports of functions/methods from other packages
+changed:
+  - dropped dependencies on polycor and psychometric, item analysis is now
+    bone using psych::alpha()
+  - removed outdated internal klausuR-internal.roxy.all.R file
+
+changes in version 0.12-12 (2018-07-29)
+fixed:
+  - the option 'keep.cases' in klausur.data() was broken
+  - klausur.report(): fixed LaTeX issue if percent sign was used in psedonyms
+changed:
+  - klausur.report(): global reports are now printed in landscape mode
+  - reaktanz.de supports HTTPS now, updated references
+  - the source code has moved from R-forge to
+    https://github.com/unDocUMeantIt/klausuR
+
+changes in version 0.12-11 (2016-06-29)
+added:
+  - new argument "fancyhdr" in klausur.report() to add information to headers
+    and footers of generated reports
+changed:
+  - cleaned up klausur.report(): moved internal functions to separate file
+  - adjusted the auto table sizes in klausur.report() a bit
+  - rephrased the description to comply with CRAN terms
+
 changes in version 0.12-10 (2015-02-07)
 added:
   - support for pick-n scoring was added to klausur()
