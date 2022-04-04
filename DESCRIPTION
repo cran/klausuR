@@ -21,8 +21,8 @@ Encoding: UTF-8
 LazyLoad: yes
 Authors@R: c(person(given="m.eik", family="michalke", email="meik.michalke@hhu.de",
           role=c("aut", "cre")))
-Version: 0.12-13
-Date: 2022-03-01
+Version: 0.12-14
+Date: 2022-04-04
 RoxygenNote: 7.1.2
 Collate: '00_class_01_klausuR.test.R' '00_class_02_klausuR.R'
         '00_class_03_klausuR.answ.R' '00_class_04_klausuR.mult.R'
@@ -34,8 +34,8 @@ Collate: '00_class_01_klausuR.test.R' '00_class_02_klausuR.R'
         'klausur.mufo.R' 'klausur.report.R' 'nret.rescale.R'
         'nret.translator.R'
 NeedsCompilation: no
-Packaged: 2022-03-01 16:14:48 UTC; m
+Packaged: 2022-04-04 16:48:54 UTC; m
 Author: m.eik michalke [aut, cre]
 Maintainer: m.eik michalke <meik.michalke@hhu.de>
 Repository: CRAN
-Date/Publication: 2022-03-02 00:30:02 UTC
+Date/Publication: 2022-04-04 21:40:12 UTC
